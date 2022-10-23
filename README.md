@@ -1,0 +1,2 @@
+# GomisDakarApp
+Aplicación GomisDakar
