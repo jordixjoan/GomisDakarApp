@@ -9,7 +9,6 @@ import com.GomisDakarTabletApp.GomisDakarTabletApp.service.UserService;
 
 @Controller
 public class UserController {
-	/*
 	@Autowired
 	UserService userService;
 	
@@ -21,8 +20,8 @@ public class UserController {
 	
 	@GetMapping("/userForm")
 	public String userForm(Model model) {
-		//model.addAttribute("userList", userService.getAllUsers());
+		//System.out.println(userService.getAllUsers());
+		model.addAttribute("userList", userService.getAllUsers());
 		return "user-form/user-view";
 	}
-	*/
 }

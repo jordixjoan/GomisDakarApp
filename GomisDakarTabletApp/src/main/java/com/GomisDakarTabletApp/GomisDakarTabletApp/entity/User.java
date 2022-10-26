@@ -49,6 +49,9 @@ public class User implements Serializable{
 	private String username;
 	
 	@Column
+	private String email;
+	
+	@Column
 	private String password;
 	
 	@Transient
@@ -146,6 +149,14 @@ public class User implements Serializable{
 		this.username = username;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -181,15 +192,15 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", direccion=" + direccion + ", ciudad="
-				+ ciudad + ", telefono=" + telefono + ", cp=" + cp + ", username=" + username + ", password=" + password
-				+ ", confirmPassword=" + confirmPassword + ", roles=" + roles + ", motos=" + motos + ", facturas="
-				+ facturas + "]";
+				+ ciudad + ", telefono=" + telefono + ", cp=" + cp + ", username=" + username + ", email=" + email
+				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", roles=" + roles + ", motos="
+				+ motos + ", facturas=" + facturas + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ciudad, confirmPassword, cp, direccion, dni, facturas, id, motos, nombre, password, roles,
-				telefono, username);
+		return Objects.hash(ciudad, confirmPassword, cp, direccion, dni, email, facturas, id, motos, nombre, password,
+				roles, telefono, username);
 	}
 
 	@Override
@@ -203,12 +214,11 @@ public class User implements Serializable{
 		User other = (User) obj;
 		return Objects.equals(ciudad, other.ciudad) && Objects.equals(confirmPassword, other.confirmPassword)
 				&& Objects.equals(cp, other.cp) && Objects.equals(direccion, other.direccion)
-				&& Objects.equals(dni, other.dni) && Objects.equals(facturas, other.facturas)
-				&& Objects.equals(id, other.id) && Objects.equals(motos, other.motos)
-				&& Objects.equals(nombre, other.nombre) && Objects.equals(password, other.password)
-				&& Objects.equals(roles, other.roles) && Objects.equals(telefono, other.telefono)
-				&& Objects.equals(username, other.username);
+				&& Objects.equals(dni, other.dni) && Objects.equals(email, other.email)
+				&& Objects.equals(facturas, other.facturas) && Objects.equals(id, other.id)
+				&& Objects.equals(motos, other.motos) && Objects.equals(nombre, other.nombre)
+				&& Objects.equals(password, other.password) && Objects.equals(roles, other.roles)
+				&& Objects.equals(telefono, other.telefono) && Objects.equals(username, other.username);
 	}
-	
 	
 }

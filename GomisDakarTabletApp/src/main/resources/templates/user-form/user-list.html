@@ -3,20 +3,18 @@
 		<thead class="thead-light">
 		<tr>
 			<th scope="col">#</th>
-			<th scope="col">firstName</th>
-			<th scope="col">lastName</th>
-			<th scope="col">Username</th>
+			<th scope="col">Nombre</th>
 			<th scope="col">Email</th>
+			<th scope="col">Telefono</th>
 			<th></th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr th:each="user: ${userList}">
 			<td th:text="${user.id}"></td>
-			<td th:text="${user.firstName}"></td>
-			<td th:text="${user.lastName}"></td>
-			<td th:text="${user.username}"></td>
+			<td th:text="${user.nombre}"></td>
 			<td th:text="${user.email}"></td>
+			<td th:text="${user.telefono}"></td>
 			<td>
 					<a href="#" th:href="@{'/editUser/'+ ${user.id}}"><i class="fas fa-edit"></i></a>
 					<a href="#" th:onclick="'javascript:confirmDelete(\''+ ${user.id} +'\');'"><i class="fas fa-user-times"></i></a>
