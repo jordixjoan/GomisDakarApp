@@ -28,13 +28,22 @@ public class User implements Serializable{
 	private Long id;
 	
 	@Column
-	private String firstName;
+	private String dni;
 	
 	@Column
-	private String lastName;
+	private String nombre;
 	
 	@Column
-	private String email;
+	private String direccion;
+	
+	@Column
+	private String ciudad;
+	
+	@Column
+	private String telefono;
+	
+	@Column
+	private String cp;
 	
 	@Column
 	private String username;
@@ -50,12 +59,29 @@ public class User implements Serializable{
 			   joinColumns=@JoinColumn(name="user_id"),
 			   inverseJoinColumns=@JoinColumn(name="role_id"))
 	private Set<Role> roles;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_motos",
+			   joinColumns=@JoinColumn(name="user_id"),
+			   inverseJoinColumns=@JoinColumn(name="moto_id"))
+	private Set<Moto> motos;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_facturas",
+			   joinColumns=@JoinColumn(name="user_id"),
+			   inverseJoinColumns=@JoinColumn(name="factura_id"))
+	private Set<Factura> facturas;
+	
+	public User() {
+		super();
+	}
 
 	public User(Long id) {
 		super();
 		this.id = id;
 	}
 
+	//Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -64,28 +90,60 @@ public class User implements Serializable{
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getDni() {
+		return dni;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setDni(String dni) {
+		this.dni = dni;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getDireccion() {
+		return direccion;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getCp() {
+		return cp;
+	}
+
+	public void setCp(String cp) {
+		this.cp = cp;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -104,16 +162,34 @@ public class User implements Serializable{
 		this.roles = roles;
 	}
 
+	public Set<Moto> getMotos() {
+		return motos;
+	}
+
+	public void setMotos(Set<Moto> motos) {
+		this.motos = motos;
+	}
+
+	public Set<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(Set<Factura> facturas) {
+		this.facturas = facturas;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", username=" + username + ", password=" + password + ", confirmPassword=" + confirmPassword
-				+ ", roles=" + roles + "]";
+		return "User [id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", direccion=" + direccion + ", ciudad="
+				+ ciudad + ", telefono=" + telefono + ", cp=" + cp + ", username=" + username + ", password=" + password
+				+ ", confirmPassword=" + confirmPassword + ", roles=" + roles + ", motos=" + motos + ", facturas="
+				+ facturas + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(confirmPassword, email, firstName, id, lastName, password, roles, username);
+		return Objects.hash(ciudad, confirmPassword, cp, direccion, dni, facturas, id, motos, nombre, password, roles,
+				telefono, username);
 	}
 
 	@Override
@@ -125,10 +201,13 @@ public class User implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(confirmPassword, other.confirmPassword) && Objects.equals(email, other.email)
-				&& Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-				&& Objects.equals(roles, other.roles) && Objects.equals(username, other.username);
+		return Objects.equals(ciudad, other.ciudad) && Objects.equals(confirmPassword, other.confirmPassword)
+				&& Objects.equals(cp, other.cp) && Objects.equals(direccion, other.direccion)
+				&& Objects.equals(dni, other.dni) && Objects.equals(facturas, other.facturas)
+				&& Objects.equals(id, other.id) && Objects.equals(motos, other.motos)
+				&& Objects.equals(nombre, other.nombre) && Objects.equals(password, other.password)
+				&& Objects.equals(roles, other.roles) && Objects.equals(telefono, other.telefono)
+				&& Objects.equals(username, other.username);
 	}
 	
 	
