@@ -1,5 +1,8 @@
 package com.GomisDakarTabletApp.GomisDakarTabletApp.repository;
 
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +11,8 @@ import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long>{
 	
-	//public Set<User> findByDNI(String DNI);
+	public Optional<User> findBydni(String dni);
+
+	public Optional<User> findById(Long id);
 
 }

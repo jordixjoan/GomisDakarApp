@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -28,27 +30,33 @@ public class User implements Serializable{
 	private Long id;
 	
 	@Column
+	@NotBlank(message="No puede estar en blanco.")
+	@Size(min=9,max=9,message="Escribe un DNI válido.")
 	private String dni;
 	
 	@Column
+	@NotBlank(message="No puede estar en blanco.")
 	private String nombre;
 	
 	@Column
+	@NotBlank(message="No puede estar en blanco.")
 	private String direccion;
 	
 	@Column
+	@NotBlank(message="No puede estar en blanco.")
 	private String ciudad;
 	
 	@Column
+	@NotBlank(message="No puede estar en blanco.")
+	@Size(min=9,max=9,message="Escribe un teléfono válido.")
 	private String telefono;
 	
 	@Column
+	@Size(min=5,max=5,message="Escribe un código postal válido.")
 	private String cp;
 	
 	@Column
-	private String username;
-	
-	@Column
+	@NotBlank(message="No puede estar en blanco.")
 	private String email;
 	
 	@Column
@@ -141,14 +149,6 @@ public class User implements Serializable{
 		this.cp = cp;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -163,6 +163,14 @@ public class User implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 	public Set<Role> getRoles() {
@@ -192,7 +200,7 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", direccion=" + direccion + ", ciudad="
-				+ ciudad + ", telefono=" + telefono + ", cp=" + cp + ", username=" + username + ", email=" + email
+				+ ciudad + ", telefono=" + telefono + ", cp=" + cp + ", email=" + email
 				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", roles=" + roles + ", motos="
 				+ motos + ", facturas=" + facturas + "]";
 	}
@@ -200,7 +208,7 @@ public class User implements Serializable{
 	@Override
 	public int hashCode() {
 		return Objects.hash(ciudad, confirmPassword, cp, direccion, dni, email, facturas, id, motos, nombre, password,
-				roles, telefono, username);
+				roles, telefono);
 	}
 
 	@Override
@@ -217,8 +225,6 @@ public class User implements Serializable{
 				&& Objects.equals(dni, other.dni) && Objects.equals(email, other.email)
 				&& Objects.equals(facturas, other.facturas) && Objects.equals(id, other.id)
 				&& Objects.equals(motos, other.motos) && Objects.equals(nombre, other.nombre)
-				&& Objects.equals(password, other.password) && Objects.equals(roles, other.roles)
-				&& Objects.equals(telefono, other.telefono) && Objects.equals(username, other.username);
+				&& Objects.equals(password, other.password) && Objects.equals(roles, other.roles);
 	}
-	
 }
