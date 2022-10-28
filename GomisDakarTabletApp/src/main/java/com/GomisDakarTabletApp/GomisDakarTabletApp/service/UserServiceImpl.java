@@ -74,15 +74,20 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
+	public void deleteUser(Long id) throws Exception {
+		User user = getUserById(id);
+		userRepository.delete(user);
+	}
+
+	
+	@Override
 	public Optional<User> getUserByDni(String dni){
 		return userRepository.findBydni(dni);
 	}
 
 	@Override
 	public User getUserById(Long id) throws Exception {
-		return userRepository.findById(id).orElseThrow(() -> new Exception("El id no existe."));
+		return userRepository.findById(id).orElseThrow(() -> new Exception("El usuario no existe."));
 	}
-
 	
-
 }

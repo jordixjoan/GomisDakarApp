@@ -15,11 +15,11 @@ public interface UserService {
 	public void createUser(User user) throws Exception;
 	
 	public User updateUser(User formUser) throws Exception;
+	
+	public void deleteUser(Long id) throws Exception;
 
 	public Optional<User> getUserByDni(String dni);
 
 	public User getUserById(Long id) throws Exception;
 	
-	
-
 }
