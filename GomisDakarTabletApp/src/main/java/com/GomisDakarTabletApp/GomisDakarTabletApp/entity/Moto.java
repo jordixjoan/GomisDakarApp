@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -22,14 +24,27 @@ public class Moto implements Serializable{
 	private Long id;
 	
 	@Column
-	private String moto;
+	@NotBlank(message="No puede estar en blanco.")
+	private String motocicleta;
 	
 	@Column
+	@NotBlank(message="No puede estar en blanco.")
 	private String modelo;
 	
 	@Column
+	@NotBlank(message="No puede estar en blanco.")
+	@Size(min=7,max=7,message="Escribe una matricula válida.")
 	private String matricula;
 
+	public Moto() {
+		super();
+	}
+
+	public Moto(Long id) {
+		super();
+		this.id = id;
+	}
+	
 	//Getters and Setters
 	public Long getId() {
 		return id;
@@ -39,12 +54,12 @@ public class Moto implements Serializable{
 		this.id = id;
 	}
 
-	public String getMoto() {
-		return moto;
+	public String getMotocicleta() {
+		return motocicleta;
 	}
 
-	public void setMoto(String moto) {
-		this.moto = moto;
+	public void setMotocicleta(String motocicleta) {
+		this.motocicleta = motocicleta;
 	}
 
 	public String getModelo() {
@@ -65,12 +80,12 @@ public class Moto implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Motos [id=" + id + ", moto=" + moto + ", modelo=" + modelo + ", matricula=" + matricula + "]";
+		return "Motos [id=" + id + ", motocicleta=" + motocicleta + ", modelo=" + modelo + ", matricula=" + matricula + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, matricula, modelo, moto);
+		return Objects.hash(id, matricula, modelo, motocicleta);
 	}
 
 	@Override
@@ -83,7 +98,7 @@ public class Moto implements Serializable{
 			return false;
 		Moto other = (Moto) obj;
 		return Objects.equals(id, other.id) && Objects.equals(matricula, other.matricula)
-				&& Objects.equals(modelo, other.modelo) && Objects.equals(moto, other.moto);
+				&& Objects.equals(modelo, other.modelo) && Objects.equals(motocicleta, other.motocicleta);
 	}
 	
 }

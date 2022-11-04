@@ -1,11 +1,12 @@
 package com.GomisDakarTabletApp.GomisDakarTabletApp.service;
 
 import java.util.Optional;
+import java.util.Set;
 
-import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.repository.UserRepository;
 
@@ -86,8 +87,16 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User getUserById(Long id) throws Exception {
-		return userRepository.findById(id).orElseThrow(() -> new Exception("El usuario no existe."));
+	public User getUserById(Long id) throws Exception{
+		return userRepository.findById(id).orElseThrow(() -> new Exception("El usuario no existe"));
+	}
+
+	@Override
+	public void addMotoToUser(User user, Moto moto) {
+		Set<Moto> motos = user.getMotos();
+		motos.add(moto);
+		user.setMotos(motos);
+		userRepository.save(user);
 	}
 	
 }

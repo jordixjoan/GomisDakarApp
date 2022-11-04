@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
 
 public interface UserService {
@@ -21,5 +22,7 @@ public interface UserService {
 	public Optional<User> getUserByDni(String dni);
 
 	public User getUserById(Long id) throws Exception;
+
+	public void addMotoToUser(User user,Moto moto);
 	
 }
