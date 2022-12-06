@@ -2,8 +2,6 @@ package com.GomisDakarTabletApp.GomisDakarTabletApp.service;
 
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
 
@@ -24,5 +22,7 @@ public interface UserService {
 	public User getUserById(Long id) throws Exception;
 
 	public void addMotoToUser(User user,Moto moto);
+
+	public void deleteMoto(Long userid, Moto moto) throws Exception;
 	
 }

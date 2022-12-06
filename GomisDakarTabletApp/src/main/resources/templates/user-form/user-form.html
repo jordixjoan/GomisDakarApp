@@ -33,6 +33,7 @@ function returnUrl(){
 			<th scope="col">Moto</th>
 			<th scope="col">Modelo</th>
 			<th scope="col">Matricula</th>
+			<th scope="col">Xasis</th>
 			<th></th>
 		</tr>
 		</thead>
@@ -42,8 +43,11 @@ function returnUrl(){
 			<td th:text="${moto.motocicleta}"></td>
 			<td th:text="${moto.modelo}"></td>
 			<td th:text="${moto.matricula}"></td>
-			<td>
-					<a href="#" th:object="${userid}" th:href="@{'/' + ${userid} + '/' + ${moto.id} + '/editMoto'}"><i class="fas fa-edit"></i></a>
+			<td th:text="${moto.xasis}"></td>
+			<td th:object="${userid}">
+					<a href="#" th:href="@{'/' + ${userid} + '/' + ${moto.id} + '/editMoto'}"><i class="fas fa-edit"></i></a>
+					<a href="#" th:onclick="return confirm('Quieres borrar esta motocicleta?')" th:href="@{'/' + ${userid} + '/' + ${moto.id} + '/deleteMoto'}"><i class="fa-solid fa-trash"></i></a>
+					<a href="#" th:href="@{'/' + ${userid} + '/' + ${moto.id} + '/createFactura'}"><i class="fa-solid fa-circle-check"></i></a>
 			</td>
 		</tr>
 		</tbody>
@@ -74,6 +78,13 @@ function returnUrl(){
 		<div class="col-lg-9">
 			<input class="form-control" type="text" th:field=" ${motoForm.matricula}">
 			<div class="alert-danger" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}">Matricula ERROR</div>
+		</div>
+	</div>
+	<div class="form-group row" th:object=" ${motoForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Número de xasis (17 dígitos)</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${motoForm.xasis}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('xasis')}" th:errors="*{xasis}">Xasis ERROR</div>
 		</div>
 	</div>
 	

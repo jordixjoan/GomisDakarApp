@@ -65,13 +65,43 @@ public class User implements Serializable{
 	@Transient
 	private String confirmPassword;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "user_roles",
-			   joinColumns=@JoinColumn(name="user_id"),
-			   inverseJoinColumns=@JoinColumn(name="role_id"))
-	private Set<Role> roles;
+	@Column
+	private String role;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@Column
+	private Boolean registrado;
+	
+	@Column
+	private Boolean recogidaPiezas;
+	
+	public Boolean getRecogidaPiezas() {
+		return recogidaPiezas;
+	}
+
+	public void setRecogidaPiezas(Boolean recogidaPiezas) {
+		this.recogidaPiezas = recogidaPiezas;
+	}
+
+	public Boolean getRegistrado() {
+		return registrado;
+	}
+
+	public void setRegistrado(Boolean registrado) {
+		this.registrado = registrado;
+	}
+
+	@Column
+	private Boolean RGPD;
+	
+	public Boolean getRGPD() {
+		return RGPD;
+	}
+
+	public void setRGPD(Boolean rGPD) {
+		RGPD = rGPD;
+	}
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_motos",
 			   joinColumns=@JoinColumn(name="user_id"),
 			   inverseJoinColumns=@JoinColumn(name="moto_id"))
@@ -173,12 +203,12 @@ public class User implements Serializable{
 		this.confirmPassword = confirmPassword;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public Set<Moto> getMotos() {
@@ -200,15 +230,16 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", direccion=" + direccion + ", ciudad="
-				+ ciudad + ", telefono=" + telefono + ", cp=" + cp + ", email=" + email
-				+ ", password=" + password + ", confirmPassword=" + confirmPassword + ", roles=" + roles + ", motos="
-				+ motos + ", facturas=" + facturas + "]";
+				+ ciudad + ", telefono=" + telefono + ", cp=" + cp + ", email=" + email + ", password=" + password
+				+ ", confirmPassword=" + confirmPassword + ", role=" + role + ", registrado=" + registrado
+				+ ", recogidaPiezas=" + recogidaPiezas + ", RGPD=" + RGPD + ", motos=" + motos + ", facturas="
+				+ facturas + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ciudad, confirmPassword, cp, direccion, dni, email, facturas, id, motos, nombre, password,
-				roles, telefono);
+		return Objects.hash(RGPD, ciudad, confirmPassword, cp, direccion, dni, email, facturas, id, motos, nombre,
+				password, recogidaPiezas, registrado, role, telefono);
 	}
 
 	@Override
@@ -220,11 +251,13 @@ public class User implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(ciudad, other.ciudad) && Objects.equals(confirmPassword, other.confirmPassword)
-				&& Objects.equals(cp, other.cp) && Objects.equals(direccion, other.direccion)
-				&& Objects.equals(dni, other.dni) && Objects.equals(email, other.email)
-				&& Objects.equals(facturas, other.facturas) && Objects.equals(id, other.id)
-				&& Objects.equals(motos, other.motos) && Objects.equals(nombre, other.nombre)
-				&& Objects.equals(password, other.password) && Objects.equals(roles, other.roles);
+		return Objects.equals(RGPD, other.RGPD) && Objects.equals(ciudad, other.ciudad)
+				&& Objects.equals(confirmPassword, other.confirmPassword) && Objects.equals(cp, other.cp)
+				&& Objects.equals(direccion, other.direccion) && Objects.equals(dni, other.dni)
+				&& Objects.equals(email, other.email) && Objects.equals(facturas, other.facturas)
+				&& Objects.equals(id, other.id) && Objects.equals(motos, other.motos)
+				&& Objects.equals(nombre, other.nombre) && Objects.equals(password, other.password)
+				&& Objects.equals(recogidaPiezas, other.recogidaPiezas) && Objects.equals(registrado, other.registrado)
+				&& Objects.equals(role, other.role) && Objects.equals(telefono, other.telefono);
 	}
 }

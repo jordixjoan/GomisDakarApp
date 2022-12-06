@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
+import com.GomisDakarTabletApp.GomisDakarTabletApp.service.MotoService;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.service.UserService;
 
 @Controller
 public class UserController {
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	MotoService motoService;
 	
 	
 	@GetMapping("/")
@@ -39,29 +43,10 @@ public class UserController {
 		return "user-form/user-view-full";
 	}
 	
-	@GetMapping("{id}/userMotos")
-	public String getMotoList(Model model, @PathVariable(name="id")Long id) {
-		System.out.println("pasa por aqui");
-		try {
-			Set<Moto> motos;
-			motos = userService.getUserById(id).getMotos();
-			model.addAttribute("motoList", motos);
-			model.addAttribute("userid", id);
-			String dni = userService.getUserById(id).getDni();
-			model.addAttribute("dni",userService.getUserById(id).getDni());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		model.addAttribute("userList", userService.getAllUsers());
-		model.addAttribute("formTab", "active");
-		model.addAttribute("motoVarList", "true");
-		return "user-form/user-view-full";
-	}
-	
 	@GetMapping("/userForm/{dni}")
 	public String getUserFormFull(Model model, @PathVariable(name="dni")String dni){
 		System.out.println("entra 3 " + dni);
+		System.out.println("modelo dice que es " + model.toString());
 		Optional<User> rellenarUser = userService.getUserByDni(dni);
 		if (!rellenarUser.isEmpty()) {
 			System.out.println("entra existe " + rellenarUser.toString());
@@ -176,11 +161,32 @@ public class UserController {
 	public String deleteUser(Model model, @PathVariable(name="id")Long id) {
 		System.out.println("intenta borrar");
 		try {
+			Set<Moto> motos = userService.getUserById(id).getMotos();
 			userService.deleteUser(id);
+			motoService.deleteMotos(motos);
+			
 		} catch (Exception e) {
 			model.addAttribute("listErrorMessage", e.getMessage());
 		}
 		return getUserForm(model);
+	}
+	
+	@GetMapping("{id}/userMotos")
+	public String getMotoList(Model model, @PathVariable(name="id")Long id) {
+		System.out.println("pasa por aqui");
+		try {
+			Set<Moto> motos;
+			motos = userService.getUserById(id).getMotos();
+			model.addAttribute("motoList", motos);
+			model.addAttribute("userid", id);
+			model.addAttribute("dni",userService.getUserById(id).getDni());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("userList", userService.getAllUsers());
+		model.addAttribute("formTab", "active");
+		model.addAttribute("motoVarList", "true");
+		return "user-form/user-view-full";
 	}
 	
 }

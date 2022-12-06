@@ -1,8 +1,5 @@
 package com.GomisDakarTabletApp.GomisDakarTabletApp.controller;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
-import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.service.MotoService;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.service.UserService;
 
@@ -29,15 +25,16 @@ public class MotoController {
 	UserService userService;
 	
 	@GetMapping("{userid}/createMoto")
-	public String getMotoForm(Model model, @PathVariable(name="userid")String userid) {
-		System.out.println("pasa por crear moto " + userid);
+	public String getMotoForm(Model model, @PathVariable(name="userid")Long userid) {
 		Moto moto = new Moto();
 		model.addAttribute("motoForm", moto);
 		System.out.println(moto);
+		
 		model.addAttribute("motoVarForm", "true");
 		Iterable<Moto> motoHistorial= motoService.getAllMotos();
 		model.addAttribute("userList", userService.getAllUsers());
 		System.out.println(motoHistorial);
+		
 		model.addAttribute("userid", userid);
 		model.addAttribute("motoHistorial", motoHistorial);
 		
@@ -122,5 +119,18 @@ public class MotoController {
 				return "user-form/user-view-full";
 			}
 		}
+	}
+	
+	@GetMapping("{userid}/{motoid}/deleteMoto")
+	public String deleteUser(Model model, @PathVariable(name="userid")Long userid, @PathVariable(name="motoid")Long motoid) {
+		System.out.println("intenta borrar" + userid + " user y " + motoid + " moto.");
+		try {
+			Moto moto = motoService.getMotoById(motoid).get();
+			userService.deleteMoto(userid,moto);
+			motoService.deleteMotoById(motoid);
+		} catch (Exception e) {
+			model.addAttribute("listErrorMessage", e.getMessage());
+		}
+		return "redirect:/"+userid+"/userMotos";
 	}
 }

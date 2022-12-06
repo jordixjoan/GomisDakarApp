@@ -16,8 +16,11 @@
 			<td th:text="${user.email}"></td>
 			<td th:text="${user.telefono}"></td>
 			<td>
+			<div>
 					<a href="#" th:href="@{'/editUser/'+ ${user.id}}"><i class="fas fa-edit"></i></a>
 					<a href="#" th:onclick="'javascript:confirmDelete(\''+ ${user.id} +'\');'"><i class="fas fa-user-times"></i></a>
+					<a href="#" th:href="@{${user.id}+'/userMotos'}"><i class="fa-solid fa-circle-check"></i></a>
+			</div>
 			</td>
 		</tr>
 		</tbody>

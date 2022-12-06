@@ -98,5 +98,14 @@ public class UserServiceImpl implements UserService{
 		user.setMotos(motos);
 		userRepository.save(user);
 	}
+
+	@Override
+	public void deleteMoto(Long userid, Moto moto) throws Exception {
+		User user = getUserById(userid);
+		Set<Moto> motos = user.getMotos();
+		motos.remove(moto);
+		user.setMotos(motos);
+		userRepository.save(user);
+	}
 	
 }

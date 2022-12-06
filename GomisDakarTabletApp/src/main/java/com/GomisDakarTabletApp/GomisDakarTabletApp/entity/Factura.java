@@ -29,6 +29,15 @@ public class Factura implements Serializable{
 	@Column
 	private String km;
 	
+	@Column
+	private int combustible;
+	
+	@Column
+	private java.sql.Date fechaEntrada;
+	
+	@Column
+	private int autorizacion;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "factura_servicios",
 			   joinColumns=@JoinColumn(name="factura_id"),

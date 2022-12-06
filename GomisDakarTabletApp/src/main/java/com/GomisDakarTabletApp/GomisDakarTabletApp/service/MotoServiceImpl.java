@@ -1,15 +1,12 @@
 package com.GomisDakarTabletApp.GomisDakarTabletApp.service;
 
-import java.util.List;
 import java.util.Optional;
-
-import javax.validation.Valid;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
-import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.repository.MotoRepository;
 
 @Service
@@ -59,6 +56,18 @@ public class MotoServiceImpl implements MotoService{
 		to.setMotocicleta(from.getMotocicleta());
 		to.setModelo(from.getModelo());
 		to.setMatricula(from.getMatricula());
+		to.setXasis(from.getXasis());
+	}
+
+	@Override
+	public void deleteMotoById(Long id) throws Exception{
+		Moto moto = getMotoById(id).get();
+		motoRepository.delete(moto);
+	}
+
+	@Override
+	public void deleteMotos(Set<Moto> motos) {
+		motoRepository.deleteAll(motos);
 	}
 	
 }
