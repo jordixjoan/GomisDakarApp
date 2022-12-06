@@ -39,7 +39,7 @@ public class MotoController {
 		model.addAttribute("motoHistorial", motoHistorial);
 		
 		model.addAttribute("formTab", "active");
-		return "user-form/user-view-full";
+		return "moto-form/moto-view";
 	}
 	
 	@PostMapping("{userid}/createMoto")
@@ -47,11 +47,10 @@ public class MotoController {
 		System.out.println("entra 4 " + userid);
 		if(result.hasErrors()) {
 			System.out.println("TIENE ERRORES VALIDACION");
-			model.addAttribute("motoVarForm", "true");
 			model.addAttribute("motoForm", moto);
 			model.addAttribute("formTab", "active");
 			model.addAttribute("userList", userService.getAllUsers());
-			return "user-form/user-view-full";
+			return "moto-form/moto-view";
 		} else {
 			try {
 				Moto newMoto = motoService.createMoto(moto);
@@ -59,16 +58,15 @@ public class MotoController {
 				userService.addMotoToUser(userService.getUserById(userid),newMoto);
 				System.out.println(userid + " ahora moto" + newMoto);
 				model.addAttribute("userList", userService.getAllUsers());
-				return "redirect:/" + userid + "/userMotos";
+				return "redirect:/userMotos/"+ userid;
 				}
 			catch (Exception e) {
 				System.out.println("TIENE ERRORES GENERALES");
-				model.addAttribute("motoVarForm", "true");
 				model.addAttribute("FormErrorMessage",e.getMessage());
 				model.addAttribute("motoForm", moto);
 				model.addAttribute("formTab", "active");
 				model.addAttribute("userList", userService.getAllUsers());
-				return "user-form/user-view-full";
+				return "moto-form/moto-view";
 			}
 		}
 	}
@@ -79,13 +77,12 @@ public class MotoController {
 		System.out.print(motoToEdit.toString());
 		
 		model.addAttribute("motoForm", motoToEdit);
-		model.addAttribute("motoVarForm", "true");
 		model.addAttribute("editModeMoto", "true");
 		model.addAttribute("userid", userid);
 		model.addAttribute("motoid", motoid);
 		model.addAttribute("userList", userService.getAllUsers());
 		model.addAttribute("formTab", "active");
-		return "user-form/user-view-full";
+		return "moto-form/moto-view";
 	}
 	
 	@PostMapping("{userid}/{motoid}/editMoto")
@@ -98,16 +95,15 @@ public class MotoController {
 			model.addAttribute("motoForm", moto);
 			model.addAttribute("formTab", "active");
 			model.addAttribute("userList", userService.getAllUsers());
-			return "user-form/user-view-full";
+			return "moto-form/moto-view";
 		} else {
 			try {
 				System.out.println("quiere  hacer update");
 				Moto newMoto = motoService.updateMoto(moto);
 				System.out.println("update MOTO");
 				System.out.println(userid + " ahora moto" + newMoto);
-				model.addAttribute("editModeMoto", "false");
 				model.addAttribute("userList", userService.getAllUsers());
-				return "redirect:/" + userid + "/userMotos";
+				return "redirect:/userMotos/" + userid;
 				}
 			catch (Exception e) {
 				System.out.println("TIENE ERRORES GENERALES");
@@ -116,7 +112,7 @@ public class MotoController {
 				model.addAttribute("motoForm", moto);
 				model.addAttribute("formTab", "active");
 				model.addAttribute("userList", userService.getAllUsers());
-				return "user-form/user-view-full";
+				return "moto-form/moto-view";
 			}
 		}
 	}
@@ -131,6 +127,6 @@ public class MotoController {
 		} catch (Exception e) {
 			model.addAttribute("listErrorMessage", e.getMessage());
 		}
-		return "redirect:/"+userid+"/userMotos";
+		return "redirect:/userMotos/"+userid;
 	}
 }

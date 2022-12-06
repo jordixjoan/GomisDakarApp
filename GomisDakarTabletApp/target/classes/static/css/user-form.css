@@ -26,3 +26,7 @@ label{
 .nav-tabs{
 	border-bottom:0px;
 }
+
+input[type=checkbox] {
+    transform: scale(1.5);
+}

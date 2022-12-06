@@ -1,0 +1,38 @@
+<div th:object=" ${motoid}"> <form class="form" role="form" autocomplete="off" th:object=" ${userid}" th:action="${editModeMoto} ?@{'/' + ${userid} + '/' + ${motoid} + '/editMoto'} :@{'/' +  ${userid} + '/createMoto'}" method="post">
+	<div class="form-group row" th:object=" ${motoForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Motocicleta</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${motoForm.motocicleta}" >
+			<div class="alert-danger" th:if="${#fields.hasErrors('motocicleta')}" th:errors="*{motocicleta}">Motocicleta ERROR</div>
+		</div>
+	</div>
+	<div class="form-group row" th:object=" ${motoForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Modelo</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${motoForm.modelo}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}">Modelo ERROR</div>
+		</div>
+	</div>
+	<div class="form-group row" th:object=" ${motoForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Matricula</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${motoForm.matricula}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}">Matricula ERROR</div>
+		</div>
+	</div>
+	<div class="form-group row" th:object=" ${motoForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Número de xasis (17 dígitos)</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${motoForm.xasis}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('xasis')}" th:errors="*{xasis}">Xasis ERROR</div>
+		</div>
+	</div>
+	
+	<div class="form-group row">
+		<div class="col-lg-12 text-center" th:object=" ${userid}">
+			<a class="btn btn-secondary" th:href="'/userMotos/' +  ${userid}" th:value="'Cancel'">Cancel</a>
+			<input type="submit" class="btn btn-primary"  th:href="${editModeMoto} ?@{'/' + ${userid} + '/' +  ${motoid} + '/editMoto'} :@{'/' +  ${userid} + '/createMoto'}" th:value="${editModeMoto} ?'Editar moto' :'Crear moto'">
+		</div>
+	</div>
+	<div class="alert alert-danger text-center" th:if="${FormErrorMessage}" th:text="${FormErrorMessage}">ERROR</div>
+</form> </div>

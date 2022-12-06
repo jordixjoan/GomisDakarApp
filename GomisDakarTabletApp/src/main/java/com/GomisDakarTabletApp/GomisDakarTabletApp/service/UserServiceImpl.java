@@ -3,6 +3,8 @@ package com.GomisDakarTabletApp.GomisDakarTabletApp.service;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,6 +107,11 @@ public class UserServiceImpl implements UserService{
 		Set<Moto> motos = user.getMotos();
 		motos.remove(moto);
 		user.setMotos(motos);
+		userRepository.save(user);
+	}
+
+	@Override
+	public void registrarUser(@Valid User user) {
 		userRepository.save(user);
 	}
 	

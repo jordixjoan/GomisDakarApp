@@ -68,9 +68,9 @@
 						<h4>Formulario</h4>
 					</div>
 					<div class="card-body">
-					
-						<div th:include="${full} ?@{user-form/user-form-full.html} :@{user-form/user-form.html}" th:remove="tag"></div>
-						
+						<div th:include="${start}
+											?@{moto-form/moto-list.html}
+											:@{moto-form/moto-form.html}" th:remove="tag"></div>
 					</div>
 				</div>
 			</div>

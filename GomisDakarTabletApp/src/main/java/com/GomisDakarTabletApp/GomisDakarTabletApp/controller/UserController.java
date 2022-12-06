@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
@@ -40,116 +42,166 @@ public class UserController {
 		model.addAttribute("userForm", new User());
 		model.addAttribute("userList", userService.getAllUsers());
 		model.addAttribute("listTab", "active");
-		return "user-form/user-view-full";
-	}
-	
-	
-	
-	@GetMapping("/userForm/{dni}")
-	public String getUserFormFull(Model model, @PathVariable(name="dni")String dni){
-		System.out.println("entra 3 " + dni);
-		System.out.println("modelo dice que es " + model.toString());
-		Optional<User> rellenarUser = userService.getUserByDni(dni);
-		if (!rellenarUser.isEmpty()) {
-			System.out.println("entra existe " + rellenarUser.toString());
-			model.addAttribute("userForm", rellenarUser);
-		} else {
-			System.out.println("entra no existe");
-			User nouUser = new User();
-			nouUser.setDni(dni);
-			model.addAttribute("userForm", nouUser);
-		}
-		System.out.println("sale");
-		model.addAttribute("formTab", "active");
-		model.addAttribute("full", "true");
-		model.addAttribute("userList", userService.getAllUsers());
-		return "user-form/user-view-full";
+		model.addAttribute("start", true);
+		return "user-form/user-view";
 	}
 	
 	@PostMapping("/userForm")
+	public String postUserForm(@Valid @ModelAttribute("userForm")User user, BindingResult result, Model model) {
+		String formDni = user.getDni();
+		System.out.println(user.getDni());
+		Optional<User> userForm = userService.getUserByDni(formDni);
+		if(userForm.isPresent()) {
+			return "redirect:/user/"+userForm.get().getId();
+		}
+		else{
+			model.addAttribute("exists", false);
+			return getUserFormFull(model,formDni);
+		}
+	}
+	
+	@GetMapping("/user/{id}")
+	public String getUser(Model model, @PathVariable(name="id")Long id) throws Exception {
+		User user = userService.getUserById(id);
+		if(!user.getRegistrado()) {
+			System.out.println("no registrado");
+			model.addAttribute("noRegistrado",true);
+		}
+		System.out.println("peque;os exitos");
+		model.addAttribute("userForm",user);
+		model.addAttribute("formTab", "active");
+		model.addAttribute("userList", userService.getAllUsers());
+		return "user-form/user-view";
+	}
+	
+	@GetMapping("/userFormFull")
+	public String getUserFormFull(Model model, String dni){
+		System.out.println("no existe " + dni);
+		User nouUser = new User();
+		nouUser.setDni(dni);
+		model.addAttribute("userForm", nouUser);
+		model.addAttribute("formTab", "active");
+		model.addAttribute("edit",true);
+		model.addAttribute("userList", userService.getAllUsers());
+		return "user-form/user-view";
+	}
+	
+	@PostMapping("/userRegistrar/{id}")
+	public String postUserRegistrar(@Valid @ModelAttribute("userForm")User user, BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			System.out.println("ALERTA 1");
+			model.addAttribute("noRegistrado",true);
+			model.addAttribute("userForm", user);
+			model.addAttribute("formTab", "active");
+			model.addAttribute("userList", userService.getAllUsers());
+			return "user-form/user-view";
+		} else {
+			try {
+				System.out.println("ALERTA 2");
+				user.setRegistrado(true);
+				userService.registrarUser(user);
+				model.addAttribute("userForm",user);
+				model.addAttribute("formTab", "active");
+				model.addAttribute("userList", userService.getAllUsers());
+				return "redirect:/user/" + user.getId();
+				}
+			catch (Exception e) {
+				System.out.println("ALERTA 3");
+				model.addAttribute("noRegistrado",true);
+				model.addAttribute("FormErrorMessage",e.getMessage());
+				model.addAttribute("userForm", user);
+				model.addAttribute("formTab", "active");
+				model.addAttribute("userList", userService.getAllUsers());
+				return "user-form/user-view";
+			}
+		}
+	}
+	
+	@PostMapping("/userFormFull")
 	public String createUser(@Valid @ModelAttribute("userForm")User user, BindingResult result, ModelMap model) {
 		System.out.println("entra 4 " + user.getDni());
-		
 		if(result.hasErrors()) {
 			System.out.println("TIENE ERRORES VALIDACION");
 			model.addAttribute("userForm", user);
+			model.addAttribute("edit",true);
 			model.addAttribute("formTab", "active");
-			model.addAttribute("full", "true");
 			model.addAttribute("userList", userService.getAllUsers());
-			return "user-form/user-view-full";
+			return "user-form/user-view";
 		} else {
 			try {
 				System.out.println("CREA USUARIO");
+				user.setRegistrado(true);
+				user.setRole("client");
 				userService.createUser(user);
 				model.addAttribute("userForm", new User());
 				model.addAttribute("listTab", "active");
 				model.addAttribute("userList", userService.getAllUsers());
-				return "redirect:" + user.getId() + "/userMotos";
+				return "redirect:/userMotos/" + user.getId();
 				}
 			catch (Exception e) {
 				System.out.println("TIENE ERRORES GENERALES");
 				model.addAttribute("FormErrorMessage",e.getMessage());
 				model.addAttribute("userForm", user);
 				model.addAttribute("formTab", "active");
-				model.addAttribute("full", "true");
+				model.addAttribute("edit",true);
 				model.addAttribute("userList", userService.getAllUsers());
-				return "user-form/user-view-full";
+				return "user-form/user-view";
 			}
 		}
 	}
 	
 	@GetMapping("/editUser/{id}")
 	public String getEditUserForm(Model model, @PathVariable(name="id")Long id) throws Exception {
-		model.addAttribute("editMode", "true");
-		model.addAttribute("full", "true");
+		model.addAttribute("edit",true);
+		model.addAttribute("editMode",true);
 		User userToEdit = userService.getUserById(id);
 		System.out.print(userToEdit.toString());
 		
 		model.addAttribute("userForm", userToEdit);
 		model.addAttribute("userList", userService.getAllUsers());
 		model.addAttribute("formTab", "active");
-		System.out.println("ALERTA 0");
-		return "user-form/user-view-full";
+		return "user-form/user-view";
 	}
 	
 	@PostMapping("/editUser")
 	public String postEditUserForm(@Valid @ModelAttribute("userForm")User user, BindingResult result, ModelMap model) throws Exception {
-		model.addAttribute("editMode", "true");
-		model.addAttribute("full", "true");
 		System.out.println("ALERTA 0.5");
 		if(result.hasErrors()) {
 			System.out.println("ALERTA 1");
+			model.addAttribute("edit",true);
+			model.addAttribute("editMode", "true");
 			model.addAttribute("userForm", user);
 			model.addAttribute("formTab", "active");
 			model.addAttribute("userList", userService.getAllUsers());
-			return "user-form/user-view-full";
+			return "user-form/user-view";
 		} else {
 			try {
 				System.out.println("ALERTA 2");
 				userService.updateUser(user);
 				model.addAttribute("userForm", new User());
 				model.addAttribute("listTab", "active");
-				model.addAttribute("full", "false");
-				model.addAttribute("editMode", "true");
 				model.addAttribute("userList", userService.getAllUsers());
-				return "redirect:/" + user.getId() + "/userMotos";
+				return "redirect:/user/"+user.getId();
 				}
 			catch (Exception e) {
 				System.out.println("ALERTA 3");
 				model.addAttribute("FormErrorMessage",e.getMessage());
+				model.addAttribute("edit",true);
+				model.addAttribute("editMode", "true");
 				model.addAttribute("userForm", user);
 				model.addAttribute("formTab", "active");
 				model.addAttribute("userList", userService.getAllUsers());
-				return "user-form/user-view-full";
+				return "user-form/user-view";
 			}
 		}
 	}
 	
-	@GetMapping("editUser/cancel")
-	public String cancelEditUser(ModelMap model) {
+	@RequestMapping(value="/cancel", method=RequestMethod.POST)
+	public String cancelEditUser(@Valid @ModelAttribute("userForm")User user, BindingResult result, ModelMap model) {
+		System.out.println(user.getId());
 		model.addAttribute("editMode", "false");
 		System.out.println("pasa por el cancel s");
-		return "redirect:/userForm";
+		return "redirect:/user/" + user.getId();
 	}
 	
 	@GetMapping("userForm/atras")
@@ -157,7 +209,7 @@ public class UserController {
 		model.addAttribute("userForm", new User());
 		model.addAttribute("userList", userService.getAllUsers());
 		model.addAttribute("formTab", "active");
-		return "user-form/user-view-full";
+		return "redirect:/userForm";
 	}
 	
 	@GetMapping("deleteUser/{id}")
@@ -174,7 +226,7 @@ public class UserController {
 		return getUserForm(model);
 	}
 	
-	@GetMapping("{id}/userMotos")
+	@GetMapping("/userMotos/{id}")
 	public String getMotoList(Model model, @PathVariable(name="id")Long id) {
 		System.out.println("pasa por aqui");
 		try {
@@ -187,9 +239,10 @@ public class UserController {
 			e.printStackTrace();
 		}
 		model.addAttribute("userList", userService.getAllUsers());
+		model.addAttribute("start", true);
 		model.addAttribute("formTab", "active");
 		model.addAttribute("motoVarList", "true");
-		return "user-form/user-view-full";
+		return "moto-form/moto-view";
 	}
 	
 }
