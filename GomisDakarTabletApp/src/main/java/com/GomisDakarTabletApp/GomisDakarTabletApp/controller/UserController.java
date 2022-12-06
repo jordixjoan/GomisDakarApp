@@ -43,6 +43,8 @@ public class UserController {
 		return "user-form/user-view-full";
 	}
 	
+	
+	
 	@GetMapping("/userForm/{dni}")
 	public String getUserFormFull(Model model, @PathVariable(name="dni")String dni){
 		System.out.println("entra 3 " + dni);
@@ -67,6 +69,7 @@ public class UserController {
 	@PostMapping("/userForm")
 	public String createUser(@Valid @ModelAttribute("userForm")User user, BindingResult result, ModelMap model) {
 		System.out.println("entra 4 " + user.getDni());
+		
 		if(result.hasErrors()) {
 			System.out.println("TIENE ERRORES VALIDACION");
 			model.addAttribute("userForm", user);
