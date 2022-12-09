@@ -15,7 +15,7 @@ public interface MotoService {
 
 	public Moto createMoto(Moto moto) throws Exception;
 
-	public Moto updateMoto(@Valid Moto moto);
+	public Moto updateMoto(@Valid Moto moto) throws Exception;
 
 	public void deleteMotoById(Long motoid) throws Exception;
 

@@ -27,6 +27,13 @@ label{
 	border-bottom:0px;
 }
 
-input[type=checkbox] {
-    transform: scale(1.5);
+#abrirModal {
+  color: blue;
+  text-decoration: underline;
 }
+
+#abrirModal:hover {
+  color: red;
+  text-decoration: none;
+}
+

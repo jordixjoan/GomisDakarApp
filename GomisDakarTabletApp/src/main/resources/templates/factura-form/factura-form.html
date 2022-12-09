@@ -1,0 +1,39 @@
+<div th:object=" ${motoid}"> <div th:object=" ${userid}">
+<form class="form" role="form" autocomplete="off" th:action="@{'/' +  ${userid} + '/' +  ${motoid} + '/createFactura'}" method="post">
+	<div class="form-group row" th:object=" ${facturaForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Kilometros</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${facturaForm.km}" >
+			<div class="alert-danger" th:if="${#fields.hasErrors('km')}" th:errors="*{km}">Motocicleta ERROR</div>
+		</div>
+	</div>
+	<div class="form-group row" th:object=" ${motoForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Combustible</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${facturaForm.combustible}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('combustible')}" th:errors="*{combustible}">Modelo ERROR</div>
+		</div>
+	</div>
+	<div class="form-group row" th:object=" ${motoForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Fecha de entrada</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${facturaForm.fechaEntrada}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('fechaEntrada')}" th:errors="*{fechaEntrada}">Matricula ERROR</div>
+		</div>
+	</div>
+	<div class="form-group row" th:object=" ${motoForm}">
+		<label class="col-lg-3 col-form-label form-control-label">Autorizacion</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field=" ${facturaForm.autorizacion}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('autorizacion')}" th:errors="*{autorizacion}">Xasis ERROR</div>
+		</div>
+	</div>
+	
+	<div class="form-group row">
+		<div class="col-lg-12 text-center">
+			<a class="btn btn-secondary" th:href="'/userMotos/' +  ${userid}" th:value="'Cancelar'">Cancelar</a>
+			</div>
+	</div>
+	<div class="alert alert-danger text-center" th:if="${FormErrorMessage}" th:text="${FormErrorMessage}">ERROR</div>
+</form>
+</div></div>

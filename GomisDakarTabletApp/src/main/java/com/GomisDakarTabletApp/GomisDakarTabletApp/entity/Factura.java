@@ -26,12 +26,15 @@ public class Factura implements Serializable{
 	@GenericGenerator(name="native", strategy="native")
 	private Long id;
 	
-	@Column
-	private String km;
+	@Column(columnDefinition="default 2022000")
+	private int idFactura;
 	
 	@Column
-	private int combustible;
+	private int km;
 	
+	@Column
+	private String combustible;
+
 	@Column
 	private java.sql.Date fechaEntrada;
 	
@@ -58,12 +61,36 @@ public class Factura implements Serializable{
 		this.id = id;
 	}
 
-	public String getKm() {
+	public int getKm() {
 		return km;
 	}
 
-	public void setKm(String km) {
+	public void setKm(int km) {
 		this.km = km;
+	}
+
+	public String getCombustible() {
+		return combustible;
+	}
+
+	public void setCombustible(String combustible) {
+		this.combustible = combustible;
+	}
+
+	public java.sql.Date getFechaEntrada() {
+		return fechaEntrada;
+	}
+
+	public void setFechaEntrada(java.sql.Date fechaEntrada) {
+		this.fechaEntrada = fechaEntrada;
+	}
+
+	public int getAutorizacion() {
+		return autorizacion;
+	}
+
+	public void setAutorizacion(int autorizacion) {
+		this.autorizacion = autorizacion;
 	}
 
 	public Set<Servicio> getServicios() {
@@ -92,13 +119,14 @@ public class Factura implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Facturas [id=" + id + ", km=" + km + ", servicios=" + servicios + ", subtotal=" + subtotal + ", total="
+		return "Factura [id=" + id + ", km=" + km + ", combustible=" + combustible + ", fechaEntrada=" + fechaEntrada
+				+ ", autorizacion=" + autorizacion + ", servicios=" + servicios + ", subtotal=" + subtotal + ", total="
 				+ total + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, km, servicios, subtotal, total);
+		return Objects.hash(autorizacion, combustible, fechaEntrada, id, km, servicios, subtotal, total);
 	}
 
 	@Override
@@ -110,7 +138,8 @@ public class Factura implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Factura other = (Factura) obj;
-		return Objects.equals(id, other.id) && Objects.equals(km, other.km)
+		return autorizacion == other.autorizacion && Objects.equals(combustible, other.combustible)
+				&& Objects.equals(fechaEntrada, other.fechaEntrada) && Objects.equals(id, other.id) && km == other.km
 				&& Objects.equals(servicios, other.servicios) && Objects.equals(subtotal, other.subtotal)
 				&& Objects.equals(total, other.total);
 	}

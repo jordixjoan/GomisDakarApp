@@ -52,6 +52,10 @@
 		</div>
 	</div>
 	<div class="form-group row">
+		<label class="col-lg-6 col-form-label form-control-label">Deseo recoger las piezas sustituidas:</label>
+		<p class="col-lg-6 col-form-label form-control-label" th:text="${userForm.recogidaPiezas} ?'Si' :'No'"></p>
+	</div>
+	<div class="form-group row">
 		<div class="col-lg-12 text-center">
 			<a class="btn btn-secondary" th:href="@{'/userForm/atras'}">Cancelar</a>
 			 <a class="btn btn-primary"  th:href="@{'/editUser/' + ${userForm.id}}" th:value="'Editar usuario'">Editar usuario</a>

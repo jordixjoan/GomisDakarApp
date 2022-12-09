@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -57,6 +58,7 @@ public class User implements Serializable{
 	
 	@Column
 	@NotBlank(message="No puede estar en blanco.")
+	@Email(message="Escribe un email válido.")
 	private String email;
 	
 	@Column
@@ -90,7 +92,6 @@ public class User implements Serializable{
 		this.registrado = registrado;
 	}
 
-	@Column
 	private Boolean RGPD;
 	
 	public Boolean getRGPD() {

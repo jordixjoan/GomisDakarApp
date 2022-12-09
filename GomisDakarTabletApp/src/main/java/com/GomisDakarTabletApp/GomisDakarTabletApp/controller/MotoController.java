@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Factura;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.service.MotoService;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.service.UserService;
@@ -87,7 +88,7 @@ public class MotoController {
 	
 	@PostMapping("{userid}/{motoid}/editMoto")
 	public String postEditMotoForm(@Valid @ModelAttribute("motoForm")Moto moto, BindingResult result, ModelMap model, @PathVariable(name="userid")Long userid, @PathVariable(name="motoid")Long motoid) throws Exception {
-		System.out.println("imprime " + moto);
+		System.out.println(result);
 		moto.setId(motoid);
 		if(result.hasErrors()) {
 			System.out.println("TIENE ERRORES VALIDACION");

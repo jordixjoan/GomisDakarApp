@@ -53,12 +53,27 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void createUser(User user) throws Exception {
 		System.out.print("entra 9");
-		if(checkUsernameAvailable(user) && checkPasswordValid(user)) {
+		if(checkUsernameAvailable(user) && checkPasswordValid(user) && checkRGPDchecked(user)) {
 			System.out.print("entra 8");
 			userRepository.save(user);
 		}
 	}
 	
+	@Override
+	public void registrarUser(@Valid User user) throws Exception {
+		if(checkPasswordValid(user) && checkRGPDchecked(user)) {
+			user.setRegistrado(true);
+			userRepository.save(user);
+		}
+	}
+	
+	private boolean checkRGPDchecked(User user) throws Exception {
+		if(user.getRGPD()==false) {
+			throw new Exception("Acepta la Ley de proteccion de datos.");
+		}
+		return true;
+	}
+
 	@Override
 	public User updateUser(User formUser) throws Exception {
 		User toUser = getUserById(formUser.getId());
@@ -74,6 +89,7 @@ public class UserServiceImpl implements UserService{
 		to.setTelefono(from.getTelefono());
 		to.setCp(from.getCp());
 		to.setEmail(from.getEmail());
+		to.setRecogidaPiezas(from.getRecogidaPiezas());
 	}
 	
 	@Override
@@ -107,11 +123,6 @@ public class UserServiceImpl implements UserService{
 		Set<Moto> motos = user.getMotos();
 		motos.remove(moto);
 		user.setMotos(motos);
-		userRepository.save(user);
-	}
-
-	@Override
-	public void registrarUser(@Valid User user) {
 		userRepository.save(user);
 	}
 	

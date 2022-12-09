@@ -28,23 +28,30 @@ public class MotoServiceImpl implements MotoService{
 	@Override
 	public Moto createMoto(Moto moto) throws Exception {
 		System.out.println("crea moto: " + moto);
-		if(checkMotoNotExists(moto)) {
-			System.out.println("no existe matricula: " + moto);
+		if(checkMatriculaNotExists(moto) && checkXasisNotExists(moto)) {
 			return motoRepository.save(moto);
 		}
 		return null;
 	}
 	
-	private boolean checkMotoNotExists(Moto moto) throws Exception {
+	private boolean checkMatriculaNotExists(Moto moto) throws Exception {
 		System.out.println(moto.getMatricula());
 		if(motoRepository.findByMatricula(moto.getMatricula()).isPresent()) {
 			throw new Exception("La matricula ya esta registrada.");
 		}
 		return true;
 	}
+	
+	private boolean checkXasisNotExists(Moto moto) throws Exception {
+		System.out.println(moto.getMatricula());
+		if(motoRepository.findByXasis(moto.getXasis()).isPresent()) {
+			throw new Exception("El xasis ya esta registrado.");
+		}
+		return true;
+	}
 
 	@Override
-	public Moto updateMoto(Moto formMoto) {
+	public Moto updateMoto(Moto formMoto) throws Exception {
 		Moto toMoto = getMotoById(formMoto.getId()).get();
 		mapUser(formMoto, toMoto);
 		System.out.println("from " + formMoto);

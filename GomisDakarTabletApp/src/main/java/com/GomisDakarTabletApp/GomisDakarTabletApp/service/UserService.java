@@ -27,6 +27,6 @@ public interface UserService {
 
 	public void deleteMoto(Long userid, Moto moto) throws Exception;
 
-	public void registrarUser(@Valid User user);
+	public void registrarUser(@Valid User user) throws Exception;
 	
 }

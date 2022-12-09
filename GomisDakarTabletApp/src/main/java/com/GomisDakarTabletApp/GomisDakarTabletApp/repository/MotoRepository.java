@@ -15,4 +15,6 @@ public interface MotoRepository extends CrudRepository<Moto, Long>{
 	public Iterable<Moto> findAll();
 
 	public Optional<Moto> findByMatricula(String matricula);
+
+	public Optional<Moto> findByXasis(String xasis);
 }

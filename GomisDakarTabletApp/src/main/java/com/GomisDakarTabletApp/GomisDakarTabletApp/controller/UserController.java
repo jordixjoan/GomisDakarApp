@@ -41,22 +41,32 @@ public class UserController {
 	public String getUserForm(Model model) {
 		model.addAttribute("userForm", new User());
 		model.addAttribute("userList", userService.getAllUsers());
-		model.addAttribute("listTab", "active");
+		model.addAttribute("formTab", "active");
 		model.addAttribute("start", true);
 		return "user-form/user-view";
 	}
 	
 	@PostMapping("/userForm")
 	public String postUserForm(@Valid @ModelAttribute("userForm")User user, BindingResult result, Model model) {
-		String formDni = user.getDni();
-		System.out.println(user.getDni());
-		Optional<User> userForm = userService.getUserByDni(formDni);
-		if(userForm.isPresent()) {
-			return "redirect:/user/"+userForm.get().getId();
+		if(result.getErrorCount()>5) {
+			System.out.println("errores " + result);
+			model.addAttribute("userForm", user);
+			model.addAttribute("userList", userService.getAllUsers());
+			model.addAttribute("formTab", "active");
+			model.addAttribute("start", true);
+			return "user-form/user-view";
 		}
-		else{
-			model.addAttribute("exists", false);
-			return getUserFormFull(model,formDni);
+		else {
+			System.out.println("entra a postuserform para ahcer cosas");
+			String formDni = user.getDni();
+			Optional<User> userForm = userService.getUserByDni(formDni);
+			if(userForm.isPresent()) {
+				return "redirect:/user/"+userForm.get().getId();
+			}
+			else{
+				model.addAttribute("exists", false);
+				return getUserFormFull(model,formDni);
+			}
 		}
 	}
 	
@@ -88,6 +98,7 @@ public class UserController {
 	
 	@PostMapping("/userRegistrar/{id}")
 	public String postUserRegistrar(@Valid @ModelAttribute("userForm")User user, BindingResult result, Model model) {
+		System.out.println(result);
 		if(result.hasErrors()) {
 			System.out.println("ALERTA 1");
 			model.addAttribute("noRegistrado",true);
@@ -98,7 +109,6 @@ public class UserController {
 		} else {
 			try {
 				System.out.println("ALERTA 2");
-				user.setRegistrado(true);
 				userService.registrarUser(user);
 				model.addAttribute("userForm",user);
 				model.addAttribute("formTab", "active");
@@ -119,6 +129,7 @@ public class UserController {
 	
 	@PostMapping("/userFormFull")
 	public String createUser(@Valid @ModelAttribute("userForm")User user, BindingResult result, ModelMap model) {
+		System.out.println(result);
 		System.out.println("entra 4 " + user.getDni());
 		if(result.hasErrors()) {
 			System.out.println("TIENE ERRORES VALIDACION");
@@ -129,10 +140,10 @@ public class UserController {
 			return "user-form/user-view";
 		} else {
 			try {
-				System.out.println("CREA USUARIO");
 				user.setRegistrado(true);
 				user.setRole("client");
 				userService.createUser(user);
+				System.out.println("CREA USUARIO");
 				model.addAttribute("userForm", new User());
 				model.addAttribute("listTab", "active");
 				model.addAttribute("userList", userService.getAllUsers());
@@ -196,12 +207,11 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value="/cancel", method=RequestMethod.POST)
-	public String cancelEditUser(@Valid @ModelAttribute("userForm")User user, BindingResult result, ModelMap model) {
-		System.out.println(user.getId());
-		model.addAttribute("editMode", "false");
-		System.out.println("pasa por el cancel s");
-		return "redirect:/user/" + user.getId();
+	@RequestMapping(value = "/motoOptions", method = RequestMethod.POST, params = "cancel")
+	public String cancel(@Valid @ModelAttribute("id")Long id, BindingResult result, ModelMap model) {
+		System.out.println(id);
+		System.out.println("pasa por el cancel");
+		return "redirect:/user/" + id;
 	}
 	
 	@GetMapping("userForm/atras")
@@ -239,6 +249,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 		model.addAttribute("userList", userService.getAllUsers());
+		model.addAttribute("id", id);
 		model.addAttribute("start", true);
 		model.addAttribute("formTab", "active");
 		model.addAttribute("motoVarList", "true");

@@ -5,49 +5,49 @@
 	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">DNI</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field="${userForm.dni}" readonly>
+			<input class="form-control" type="text" th:field="${userForm.dni}" >
 			<div class="alert-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">DNI ERROR</div>
 			</div>
 	</div>
 	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Nombre</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field="${userForm.nombre}" readonly>
+			<input class="form-control" type="text" th:field="${userForm.nombre}" >
 			<div class="alert-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Nombre ERROR</div>
 		</div>
 	</div>
 	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Direccion</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field="${userForm.direccion}" readonly>
+			<input class="form-control" type="text" th:field="${userForm.direccion}" >
 			<div class="alert-danger" th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}">Direccion ERROR</div>
 		</div>
 	</div>
 	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Ciudad</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field="${userForm.ciudad}" readonly>
+			<input class="form-control" type="text" th:field="${userForm.ciudad}" >
 			<div class="alert-danger" th:if="${#fields.hasErrors('ciudad')}" th:errors="*{ciudad}">Ciudad ERROR</div>
 		</div>
 	</div>
 	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Telefono</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field="${userForm.telefono}" readonly>
+			<input class="form-control" type="text" th:field="${userForm.telefono}" >
 			<div class="alert-danger" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}">Telefono ERROR</div>
 		</div>
 	</div>
 	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">C.P.</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field="${userForm.cp}" readonly>
+			<input class="form-control" type="text" th:field="${userForm.cp}" >
 			<div class="alert-danger" th:if="${#fields.hasErrors('cp')}" th:errors="*{cp}">C.P. ERROR</div>
 		</div>
 	</div>
 	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Email</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field="${userForm.email}" readonly>
+			<input class="form-control" type="text" th:field="${userForm.email}" >
 			<div class="alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email ERROR</div>
 		</div>
 	</div>
@@ -66,6 +66,14 @@
 		</div>
 	</div>
 	<div class="form-group row">
+		<label class="col-lg-6 col-form-label form-control-label">Deseo recoger las piezas sustituidas</label>
+		<input type="checkbox" class="col-lg-6 form-control" th:field=" ${userForm.recogidaPiezas}" >
+	</div>
+	<div class="form-group row">
+		<label class="col-lg-6 col-form-label form-control-label">Acepto <a id="abrirModal" data-toggle="modal" data-target="#LeyProteccionDatosModal">Ley de proteccion de datos</a></label>
+		<input type="checkbox" th:checked="true" class="col-lg-6" value="checkboxRGPD" th:field=" ${userForm.RGPD}">
+	</div>
+	<div class="form-group row">
 		<div class="col-lg-12 text-center">
 			<a class="btn btn-secondary" th:href="@{'/userForm/atras'}">Cancelar</a>
 			<input type="submit" class="btn btn-primary"  th:href="@{'/userRegistrar/'+${userForm.id}}" th:value="'Guardar usuario'">
@@ -73,3 +81,23 @@
 	</div>
 	<div class="alert alert-danger text-center" th:if="${FormErrorMessage}" th:text="${FormErrorMessage}">ERROR</div>
 </form> </div>
+
+<!-- Modal PROTECCION DE DATOS-->
+<div class="modal fade" id="LeyProteccionDatosModal" tabindex="-1" role="dialog" aria-labelledby="LeyProteccionDatosModalTitle" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ley de Proteccion de datos.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Ley de PROTECCION DE DATOS
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="document.getElementById('checkboxRGPD').checked = true" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
