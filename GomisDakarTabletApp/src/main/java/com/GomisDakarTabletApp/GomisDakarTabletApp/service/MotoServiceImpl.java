@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Factura;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.repository.MotoRepository;
 
@@ -75,6 +76,14 @@ public class MotoServiceImpl implements MotoService{
 	@Override
 	public void deleteMotos(Set<Moto> motos) {
 		motoRepository.deleteAll(motos);
+	}
+
+	@Override
+	public void addFacturaToMoto(Moto moto, Factura factura) {
+		Set<Factura> facturas = moto.getFacturas();
+		facturas.add(factura);
+		moto.setFacturas(facturas);;
+		motoRepository.save(moto);
 	}
 	
 }

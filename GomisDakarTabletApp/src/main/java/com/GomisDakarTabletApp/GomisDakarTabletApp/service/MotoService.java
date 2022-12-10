@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Factura;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 
 public interface MotoService {
@@ -20,5 +21,7 @@ public interface MotoService {
 	public void deleteMotoById(Long motoid) throws Exception;
 
 	public void deleteMotos(Set<Moto> motos);
+
+	public void addFacturaToMoto(Moto moto, Factura factura);
 
 }

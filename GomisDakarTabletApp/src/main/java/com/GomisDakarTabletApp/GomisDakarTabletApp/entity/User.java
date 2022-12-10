@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -102,17 +103,11 @@ public class User implements Serializable{
 		RGPD = rGPD;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_motos",
 			   joinColumns=@JoinColumn(name="user_id"),
 			   inverseJoinColumns=@JoinColumn(name="moto_id"))
 	private Set<Moto> motos;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "user_facturas",
-			   joinColumns=@JoinColumn(name="user_id"),
-			   inverseJoinColumns=@JoinColumn(name="factura_id"))
-	private Set<Factura> facturas;
 	
 	public User() {
 		super();
@@ -220,27 +215,18 @@ public class User implements Serializable{
 		this.motos = motos;
 	}
 
-	public Set<Factura> getFacturas() {
-		return facturas;
-	}
-
-	public void setFacturas(Set<Factura> facturas) {
-		this.facturas = facturas;
-	}
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", direccion=" + direccion + ", ciudad="
 				+ ciudad + ", telefono=" + telefono + ", cp=" + cp + ", email=" + email + ", password=" + password
 				+ ", confirmPassword=" + confirmPassword + ", role=" + role + ", registrado=" + registrado
-				+ ", recogidaPiezas=" + recogidaPiezas + ", RGPD=" + RGPD + ", motos=" + motos + ", facturas="
-				+ facturas + "]";
+				+ ", recogidaPiezas=" + recogidaPiezas + ", RGPD=" + RGPD + ", motos=" + motos + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(RGPD, ciudad, confirmPassword, cp, direccion, dni, email, facturas, id, motos, nombre,
-				password, recogidaPiezas, registrado, role, telefono);
+		return Objects.hash(RGPD, ciudad, confirmPassword, cp, direccion, dni, email, id, motos, nombre, password,
+				recogidaPiezas, registrado, role, telefono);
 	}
 
 	@Override
@@ -255,10 +241,10 @@ public class User implements Serializable{
 		return Objects.equals(RGPD, other.RGPD) && Objects.equals(ciudad, other.ciudad)
 				&& Objects.equals(confirmPassword, other.confirmPassword) && Objects.equals(cp, other.cp)
 				&& Objects.equals(direccion, other.direccion) && Objects.equals(dni, other.dni)
-				&& Objects.equals(email, other.email) && Objects.equals(facturas, other.facturas)
-				&& Objects.equals(id, other.id) && Objects.equals(motos, other.motos)
-				&& Objects.equals(nombre, other.nombre) && Objects.equals(password, other.password)
-				&& Objects.equals(recogidaPiezas, other.recogidaPiezas) && Objects.equals(registrado, other.registrado)
-				&& Objects.equals(role, other.role) && Objects.equals(telefono, other.telefono);
+				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& Objects.equals(motos, other.motos) && Objects.equals(nombre, other.nombre)
+				&& Objects.equals(password, other.password) && Objects.equals(recogidaPiezas, other.recogidaPiezas)
+				&& Objects.equals(registrado, other.registrado) && Objects.equals(role, other.role)
+				&& Objects.equals(telefono, other.telefono);
 	}
 }

@@ -1,39 +1,78 @@
 <div th:object=" ${motoid}"> <div th:object=" ${userid}">
-<form class="form" role="form" autocomplete="off" th:action="@{'/' +  ${userid} + '/' +  ${motoid} + '/createFactura'}" method="post">
-	<div class="form-group row" th:object=" ${facturaForm}">
+<form th:object="${facturaForm}" id="form1" class="form" role="form" autocomplete="off" th:action="@{'/' + ${userid} + '/' + ${motoid} + '/createFactura'}" method="post">
+	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Kilometros</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field=" ${facturaForm.km}" >
-			<div class="alert-danger" th:if="${#fields.hasErrors('km')}" th:errors="*{km}">Motocicleta ERROR</div>
+			<input class="form-control" type="text" th:field="${facturaForm.km}" >
+			<div class="alert-danger" th:if="${#fields.hasErrors('km')}" th:errors="*{km}">km ERROR</div>
 		</div>
 	</div>
-	<div class="form-group row" th:object=" ${motoForm}">
+	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Combustible</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field=" ${facturaForm.combustible}">
-			<div class="alert-danger" th:if="${#fields.hasErrors('combustible')}" th:errors="*{combustible}">Modelo ERROR</div>
+			<select th:field="${facturaForm.combustible}" class="col-lg-12 form-control col-form-label form-control-label">
+				<option value="1/4">1/4</option>
+				<option value="Mitad">Mitad</option>
+				<option value="3/4">3/4</option>
+				<option value="Lleno">Lleno</option>
+			</select>
+			<div class="alert-danger" th:if="${#fields.hasErrors('combustible')}" th:errors="*{combustible}">combustible ERROR</div>
 		</div>
 	</div>
-	<div class="form-group row" th:object=" ${motoForm}">
+	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Fecha de entrada</label>
 		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field=" ${facturaForm.fechaEntrada}">
-			<div class="alert-danger" th:if="${#fields.hasErrors('fechaEntrada')}" th:errors="*{fechaEntrada}">Matricula ERROR</div>
+			<input class="form-control" type="text" th:field="${facturaForm.fechaEntrada}" readonly>
+			<div class="alert-danger" th:if="${#fields.hasErrors('fechaEntrada')}" th:errors="*{fechaEntrada}">fechaEntrada ERROR</div>
 		</div>
 	</div>
-	<div class="form-group row" th:object=" ${motoForm}">
-		<label class="col-lg-3 col-form-label form-control-label">Autorizacion</label>
-		<div class="col-lg-9">
-			<input class="form-control" type="text" th:field=" ${facturaForm.autorizacion}">
-			<div class="alert-danger" th:if="${#fields.hasErrors('autorizacion')}" th:errors="*{autorizacion}">Xasis ERROR</div>
-		</div>
-	</div>
-	
 	<div class="form-group row">
 		<div class="col-lg-12 text-center">
-			<a class="btn btn-secondary" th:href="'/userMotos/' +  ${userid}" th:value="'Cancelar'">Cancelar</a>
-			</div>
+			<a class="btn btn-secondary" th:href="'/userMotos/' + ${userid}" th:value="'Cancelar'">Cancelar</a>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AutorizacionModal">Crear factura</button>
+		</div>
 	</div>
 	<div class="alert alert-danger text-center" th:if="${FormErrorMessage}" th:text="${FormErrorMessage}">ERROR</div>
 </form>
 </div></div>
+
+<!-- Modal Autorizacion-->
+<div class="modal fade" id="AutorizacionModal" tabindex="-1" role="dialog" aria-labelledby="AutorizacionModalTitle" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="AutorizacionModalLongTitle">Autorizacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Autorizacion
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#PasswordModal">Autorizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Validar password creacion factura-->
+<div class="modal fade" id="PasswordModal" tabindex="-1" role="dialog" aria-labelledby="PasswordModalTitle" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" th:object="${userid}">
+      <div class="modal-header">
+        <h5 class="modal-title" id="PasswordModalLongTitle">Contraseña</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Jordi debe introducir la contraseña para validar la creación de la factura.
+      </div>
+      <input form="form1" class="offset-3 col-lg-6 form-control" type="text" name="password">
+      <div class="modal-footer" th:object="${motoid}">
+        <button type="submit" form="form1" th:href="@{'/' + ${userid} + '/' + ${motoid} + '/createFactura'}" class="btn btn-primary">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>

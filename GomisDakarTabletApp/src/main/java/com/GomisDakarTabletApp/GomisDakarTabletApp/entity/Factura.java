@@ -1,6 +1,7 @@
 package com.GomisDakarTabletApp.GomisDakarTabletApp.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,16 +31,22 @@ public class Factura implements Serializable{
 	private int idFactura;
 	
 	@Column
+	private String estado;
+	
+	@Column
 	private int km;
 	
 	@Column
 	private String combustible;
 
 	@Column
-	private java.sql.Date fechaEntrada;
+	private LocalDate fechaEntrada;
 	
 	@Column
-	private int autorizacion;
+	private int numeroLlave;
+	
+	@Column
+	private boolean autorizacion;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "factura_servicios",
@@ -61,6 +68,22 @@ public class Factura implements Serializable{
 		this.id = id;
 	}
 
+	public int getIdFactura() {
+		return idFactura;
+	}
+
+	public void setIdFactura(int idFactura) {
+		this.idFactura = idFactura;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 	public int getKm() {
 		return km;
 	}
@@ -77,19 +100,19 @@ public class Factura implements Serializable{
 		this.combustible = combustible;
 	}
 
-	public java.sql.Date getFechaEntrada() {
+	public LocalDate getFechaEntrada() {
 		return fechaEntrada;
 	}
 
-	public void setFechaEntrada(java.sql.Date fechaEntrada) {
+	public void setFechaEntrada(LocalDate fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
 
-	public int getAutorizacion() {
+	public boolean getAutorizacion() {
 		return autorizacion;
 	}
 
-	public void setAutorizacion(int autorizacion) {
+	public void setAutorizacion(boolean autorizacion) {
 		this.autorizacion = autorizacion;
 	}
 
@@ -119,14 +142,15 @@ public class Factura implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", km=" + km + ", combustible=" + combustible + ", fechaEntrada=" + fechaEntrada
-				+ ", autorizacion=" + autorizacion + ", servicios=" + servicios + ", subtotal=" + subtotal + ", total="
-				+ total + "]";
+		return "Factura [id=" + id + ", idFactura=" + idFactura + ", estado=" + estado + ", km=" + km + ", combustible="
+				+ combustible + ", fechaEntrada=" + fechaEntrada + ", autorizacion=" + autorizacion + ", servicios="
+				+ servicios + ", subtotal=" + subtotal + ", total=" + total + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(autorizacion, combustible, fechaEntrada, id, km, servicios, subtotal, total);
+		return Objects.hash(autorizacion, combustible, estado, fechaEntrada, id, idFactura, km, servicios, subtotal,
+				total);
 	}
 
 	@Override
@@ -139,7 +163,8 @@ public class Factura implements Serializable{
 			return false;
 		Factura other = (Factura) obj;
 		return autorizacion == other.autorizacion && Objects.equals(combustible, other.combustible)
-				&& Objects.equals(fechaEntrada, other.fechaEntrada) && Objects.equals(id, other.id) && km == other.km
+				&& Objects.equals(estado, other.estado) && Objects.equals(fechaEntrada, other.fechaEntrada)
+				&& Objects.equals(id, other.id) && idFactura == other.idFactura && km == other.km
 				&& Objects.equals(servicios, other.servicios) && Objects.equals(subtotal, other.subtotal)
 				&& Objects.equals(total, other.total);
 	}

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Factura;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.Moto;
 import com.GomisDakarTabletApp.GomisDakarTabletApp.entity.User;
 
@@ -28,5 +29,4 @@ public interface UserService {
 	public void deleteMoto(Long userid, Moto moto) throws Exception;
 
 	public void registrarUser(@Valid User user) throws Exception;
-	
 }

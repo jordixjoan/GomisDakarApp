@@ -68,7 +68,9 @@
 						<h4>Formulario</h4>
 					</div>
 					<div class="card-body">
-						<div th:include="@{factura-form/factura-form.html}" th:remove="tag"></div>
+						<div th:include="${facturaCreada}
+												?@{factura-form/factura-creada.html}
+												:@{factura-form/factura-form.html}" th:remove="tag"></div>
 					</div>
 				</div>
 			</div>
